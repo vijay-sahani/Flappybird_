@@ -15,7 +15,7 @@ class flappyBird:
         self.GAMESOUND = {}
         self.basex = 0
         self.basey = int(self.SCREENHEIGHT*0.8)
-
+        self.PIPE="gallery/sprites/pipe.png"
         self.GAMESPIRIT["background"] = pygame.image.load(
             "gallery/sprites/background.png").convert()
         self.GAMESPIRIT["message"] = pygame.image.load(
@@ -24,8 +24,8 @@ class flappyBird:
             "gallery/sprites/bird.png").convert_alpha()
         self.GAMESPIRIT["base"] = pygame.image.load(
             "gallery/sprites/base.png").convert_alpha()
-        self.GAMESPIRIT["pipe"] = (pygame.transform.rotate(pygame.image.load("gallery/sprites/pipe.png"), 180).convert_alpha(),
-                                   pygame.image.load("gallery/sprites/pipe.png").convert_alpha())
+        self.GAMESPIRIT["pipe"] = (pygame.transform.rotate(pygame.image.load(self.PIPE).convert_alpha(), 180),
+                            pygame.image.load(self.PIPE).convert_alpha())
         self.GAMESOUND["hit"] = pygame.mixer.Sound("gallery/audio/hit.wav")
         self.GAMESOUND["point"] = pygame.mixer.Sound("gallery/audio/point.wav")
         self.GAMESOUND["wing"] = pygame.mixer.Sound("gallery/audio/wing.wav")
@@ -34,27 +34,25 @@ class flappyBird:
         self.GAMESOUND["die"] = pygame.mixer.Sound("gallery/audio/die.wav")
 
     def welcomeScreen(self):
-        self.bird_X = int(self.SCREENWIDHT/5)
-        self.bird_Y = int(
-            (self.SCREENHEIGHT - self.GAMESPIRIT["bird"].get_height())/2)
-        self.message_X = (
-            (self.SCREENWIDHT - self.GAMESPIRIT["message"].get_width())/2)
-        self.message_Y = int(self.SCREENHEIGHT*0.15)
+        playerx = int(self.SCREENWIDHT/5)
+        playery = int((self.SCREENHEIGHT - self.GAMESPIRIT['bird'].get_height())/2)
+        messagex = int((self.SCREENWIDHT - self.GAMESPIRIT['message'].get_width())/2)
+        messagey = int(self.SCREENHEIGHT*0.13)
         while True:
             for event in pygame.event.get():
-                if event.type == QUIT:
+                # if user clicks on cross button, close the game
+                if event.type == QUIT or (event.type==KEYDOWN and event.key == K_ESCAPE):
                     pygame.quit()
                     sys.exit()
-                elif event.type == KEYUP or event.type == KEYDOWN:
+
+                # If the user presses space or up key, start the game for them
+                elif event.type==KEYDOWN and (event.key==K_SPACE or event.key == K_UP):
                     return
                 else:
-                    self.SCREEN.blit(self.GAMESPIRIT["background"], (0, 0))
-                    self.SCREEN.blit(
-                        self.GAMESPIRIT["message"], (self.message_X, self.message_Y))
-                    self.SCREEN.blit(
-                        self.GAMESPIRIT["bird"], (self.bird_X, self.bird_Y))
-                    self.SCREEN.blit(
-                        self.GAMESPIRIT["base"], (self.basex, self.basey))
+                    self.SCREEN.blit(self.GAMESPIRIT['background'], (0, 0))    
+                    self.SCREEN.blit(self.GAMESPIRIT["bird"], (playerx, playery))    
+                    self.SCREEN.blit(self.GAMESPIRIT['message'], (messagex,messagey ))    
+                    self.SCREEN.blit(self.GAMESPIRIT['base'], (self.basex, self.basey))    
                     pygame.display.update()
                     FPSCLOCK.tick(self.FPS)
 
@@ -62,8 +60,6 @@ class flappyBird:
         score = 0
         player_x = int(self.SCREENWIDHT/5)
         player_y = int(self.SCREENHEIGHT/2)
-        basex = 0
-
         newPipe1 = self.getRandomPipe()
         newPipe2 = self.getRandomPipe()
 
@@ -77,7 +73,6 @@ class flappyBird:
         playerVelY = -8
         playerMaxVelY = 10
         playerAccY = 1
-        playerFlapacc = -8
         playerFlapped = False
         while True:
             for event in pygame.event.get():
@@ -86,13 +81,13 @@ class flappyBird:
                     sys.exit()
                 if event.type == KEYUP:
                     if player_y > 0:
-                        playerVelY = playerFlapacc
+                        playerVelY = -8
                         playerFlapped = True
                         self.GAMESOUND["wing"].play()
 
             crashTest = self.isCollide(player_x, player_y, upperPipes, lowerPipes)
             if crashTest:
-                return 
+                return self.mainGame()
             playerMidPos = player_x+self.GAMESPIRIT["bird"].get_width()/2
             for pipe in upperPipes:
                 pipMidPos = pipe["x"]+self.GAMESPIRIT["pipe"][0].get_width()/2
@@ -118,7 +113,7 @@ class flappyBird:
                 self.SCREEN.blit(self.GAMESPIRIT["pipe"][0], (upperPipe["x"], upperPipe["y"]))
                 self.SCREEN.blit(self.GAMESPIRIT["pipe"][1], (lowerPipe["x"], lowerPipe["y"]))
             self.SCREEN.blit(self.GAMESPIRIT["background"],(0,0))
-            self.SCREEN.blit(self.GAMESPIRIT["bird"],(self.bird_X,self.bird_Y))
+            self.SCREEN.blit(self.GAMESPIRIT["bird"],(player_x,player_y))
             self.SCREEN.blit(self.GAMESPIRIT["base"],(self.basex,self.basey))
             pygame.display.update()
             FPSCLOCK.tick(self.FPS)

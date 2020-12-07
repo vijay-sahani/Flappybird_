@@ -119,8 +119,8 @@ class flappyBird:
             FPSCLOCK.tick(self.FPS)
 
     def isCollide(self,playerx, playery, upperPipes, lowerPipes):
-        # print(playerx,playery)
-        if playery> self.basey - 25  or playery<0:
+        print(playerx,playery)
+        if playery> 370  or playery<0:
             self.GAMESOUND['hit'].play()
             return True
         

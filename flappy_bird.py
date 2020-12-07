@@ -135,7 +135,7 @@ class flappyBird:
                 self.SCREEN.blit(GAME_SPRITES["pipe"][0], (upperPipe["x"], upperPipe["y"]))
                 self.SCREEN.blit(GAME_SPRITES["pipe"][1], (lowerPipe["x"], lowerPipe["y"]))
             self.SCREEN.blit(Alive_meter,(0,0))
-            self.SCREEN.blit(Score_meter,(210,0))
+            self.SCREEN.blit(Score_meter,(200,0))
             self.SCREEN.blit(GAME_SPRITES["base"], (self.basex, self.basey))
             self.SCREEN.blit(GAME_SPRITES["player"], (player_x, player_y))
             pygame.display.update()

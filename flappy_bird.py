@@ -11,6 +11,7 @@ class flappyBird:
         self.FPS = 32
         self.SCREENWIDTH = 289
         self.SCREENHEIGHT = 511
+        self.fontcolor="#ffffff"
         self.SCREEN = pygame.display.set_mode(
             (self.SCREENWIDTH, self.SCREENHEIGHT))
         self.basex = 0
@@ -61,8 +62,8 @@ class flappyBird:
         score = 0
         player_x = int(self.SCREENWIDTH/5)
         player_y = int(self.SCREENHEIGHT/2)
-        Alive_meter = myfont.render(f"Alive:{ALIVE}", False, (0, 0, 0))
-        Score_meter = myfont.render(f"Score:{score}", False, (0, 0, 0))
+        Alive_meter = myfont.render(f"Alive:{ALIVE}", False, self.fontcolor)
+        Score_meter = myfont.render(f"Score:{score}", False, self.fontcolor)
         newPipe1 =self.getRandomPipe()
         newPipe2 = self.getRandomPipe()
 
@@ -104,7 +105,7 @@ class flappyBird:
                 if pipMidPos <= playerMidPos <pipMidPos+4:
                     score += 1
                     GAME_SOUNDS["point"].play()
-                    Score_meter = myfont.render(f"Score:{score}", False, (0, 0, 0))
+                    Score_meter = myfont.render(f"Score:{score}", False, self.fontcolor)
                     print(f"your point is {score} ")
             if playerVelY < playerMaxVelY and not playerFlapped:
                 playerVelY += playerAccY

@@ -62,8 +62,9 @@ class flappyBird:
         score = 0
         player_x = int(self.SCREENWIDTH/5)
         player_y = int(self.SCREENHEIGHT/2)
-        Alive_meter = myfont.render(f"Alive:{ALIVE}", False, self.fontcolor)
-        Score_meter = myfont.render(f"Score:{score}", False, self.fontcolor)
+        Alive_meter = myfont.render(f"Life:{ALIVE}", False, self.fontcolor)
+        Score_meter = myfont.render(None, False, self.fontcolor)
+        Gameover = myfont.render("GAME OVER!", False, "Red")
         newPipe1 =self.getRandomPipe()
         newPipe2 = self.getRandomPipe()
 
@@ -97,6 +98,9 @@ class flappyBird:
                     return self.mainGame()
                 else:
                     ALIVE+=2
+                    self.SCREEN.blit(Gameover,(80,210))
+                    pygame.display.update()
+                    FPSCLOCK.tick(self.FPS)
                     return 
             playerMidPos = player_x+GAME_SPRITES['player'].get_width()/2
 

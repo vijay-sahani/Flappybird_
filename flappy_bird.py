@@ -19,7 +19,7 @@ class flappyBird:
         self.GAMESPIRIT["background"] = pygame.image.load(
             "gallery/sprites/background.png").convert()
         self.GAMESPIRIT["message"] = pygame.image.load(
-            "gallery/sprites/message.png").convert_alpha()
+            "gallery/sprites/message.jpg").convert_alpha()
         self.GAMESPIRIT["bird"] = pygame.image.load(
             "gallery/sprites/bird.png").convert_alpha()
         self.GAMESPIRIT["base"] = pygame.image.load(
@@ -50,8 +50,8 @@ class flappyBird:
                     return
                 else:
                     self.SCREEN.blit(self.GAMESPIRIT['background'], (0, 0))    
-                    self.SCREEN.blit(self.GAMESPIRIT["bird"], (playerx, playery))    
                     self.SCREEN.blit(self.GAMESPIRIT['message'], (messagex,messagey ))    
+                    self.SCREEN.blit(self.GAMESPIRIT["bird"], (playerx, playery))    
                     self.SCREEN.blit(self.GAMESPIRIT['base'], (self.basex, self.basey))    
                     pygame.display.update()
                     FPSCLOCK.tick(self.FPS)
@@ -87,7 +87,7 @@ class flappyBird:
 
             crashTest = self.isCollide(player_x, player_y, upperPipes, lowerPipes)
             if crashTest:
-                return self.mainGame()
+                return 
             playerMidPos = player_x+self.GAMESPIRIT["bird"].get_width()/2
             for pipe in upperPipes:
                 pipMidPos = pipe["x"]+self.GAMESPIRIT["pipe"][0].get_width()/2
@@ -119,6 +119,7 @@ class flappyBird:
             FPSCLOCK.tick(self.FPS)
 
     def isCollide(self,playerx, playery, upperPipes, lowerPipes):
+        # print(playerx,playery)
         if playery> self.basey - 25  or playery<0:
             self.GAMESOUND['hit'].play()
             return True
@@ -137,7 +138,7 @@ class flappyBird:
         return False
     def getRandomPipe(self):
         pipeHeight = self.GAMESPIRIT["pipe"][0].get_height()
-        offset = int(self.SCREENHEIGHT/4)+random.randint(0,5)
+        offset = int(self.SCREENHEIGHT/4)
         y2 = random.randrange(
             offset, int(self.SCREENHEIGHT-self.GAMESPIRIT["base"].get_height()-1.2*offset))
         pipex = self.SCREENWIDHT+15

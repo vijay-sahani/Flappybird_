@@ -62,7 +62,7 @@ class flappyBird:
         score = 0
         player_x = int(self.SCREENWIDTH/5)
         player_y = int(self.SCREENHEIGHT/2)
-        Alive_meter = myfont.render(f"Life:{ALIVE}", False, self.fontcolor)
+        Alive_meter = myfont.render(f"Life:"+"*"*+ALIVE, False, (self.fontcolor if ALIVE>=2 else (255,0,0)))
         Score_meter = myfont.render(None, False, self.fontcolor)
         Gameover = myfont.render("GAME OVER!", False, "Red")
         newPipe1 =self.getRandomPipe()
